@@ -47,14 +47,8 @@ async function handleRequest(request: Request, env: DemoEnv, ctx: ExecutionConte
 			}),
 		},
 		theme: {
-			title: "Go-Shop",
+			title: "DropAuth",
 			primary: "#FFF8DC",
-			favicon: "https://ik.imagekit.io/dr5fryhth/logo1.png?updatedAt=1760472240746",
-			logo: {
-				dark: "https://ik.imagekit.io/dr5fryhth/logo1.png?updatedAt=1760472240746",
-				light:
-					"https://ik.imagekit.io/dr5fryhth/logo1.png?updatedAt=1760472240746",
-			},
 		},
 		success: async (ctx, value) => {
 			const profile = await fetchGoogleProfile(value.tokenset.access);
