@@ -1,7 +1,7 @@
 {
 	"compatibility_date": "2025-10-08",
 	"main": "src/index.ts",
-	"name": "openauth-template",
+	"name": "dropauth",
 	"upload_source_maps": true,
 	"rules": [{ "type": "Text", "globs": ["**/demo/*.html", "**/demo/*.css", "**/demo/*.mjs"], "fallthrough": true }],
 	"vars": { "ISSUER_ORIGIN": "http://localhost:8787" },
@@ -18,7 +18,7 @@
 	"d1_databases": [
 		{
 			"binding": "AUTH_DB",
-			"database_name": "openauth-template-auth-db",
+			"database_name": "dropauth-auth-db",
 			"database_id": "d4dfb2e9-2fd3-4d04-9c83-57b4336a5958"
 		}
 	],

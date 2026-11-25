@@ -1,5 +1,5 @@
 {
-	"name": "openauth-template",
+	"name": "dropauth",
 	"description": "Deploy an OpenAuth server on Cloudflare Workers.",
 	"private": true,
 	"packageManager": "npm@11.17.0",
