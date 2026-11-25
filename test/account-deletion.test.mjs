@@ -71,16 +71,6 @@ function userInfo(flow) {
   return flow.client.fetch("/userinfo", { headers: { Authorization: `Bearer ${flow.tokens.access_token}` } });
 }
 
-async function seedLegacyRows(userId) {
-  await app.db.batch([
-    app.db.prepare("INSERT INTO user_sessions (user_id, session_token, expires_at) VALUES (?, ?, ?)")
-      .bind(userId, `legacy-${userId}`, "2099-01-01 00:00:00"),
-    app.db.prepare(`INSERT INTO user_addresses
-      (user_id, type, first_name, last_name, address_line_1, city, state, postal_code)
-      VALUES (?, 'shipping', 'Test', 'Person', '1 Test Street', 'Test City', 'IL', '00000')`).bind(userId),
-  ]);
-}
-
 test("a real refresh token cannot renew authentication after its D1 user is deleted", async () => {
   const flow = await issueTokens();
   await app.db.prepare("DELETE FROM user WHERE id = ?").bind(flow.userId).run();
@@ -97,9 +87,7 @@ test("account deletion cascades only the current account's rows and clears all a
   const account = await signIn();
   const anotherSession = await signIn();
   const otherAccount = await signIn(bob);
-  await seedLegacyRows(account.user.id);
-  await seedLegacyRows(otherAccount.user.id);
-  const tables = ["user_identities", "browser_sessions", "user_sessions", "user_addresses"];
+  const tables = ["user_identities", "browser_sessions"];
   const otherRows = new Map();
   for (const table of tables) {
     otherRows.set(table, (await app.db.prepare(`SELECT * FROM ${table} WHERE user_id = ?`).bind(otherAccount.user.id).all()).results);

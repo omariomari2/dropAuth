@@ -58,8 +58,9 @@ test("all existing migrations create usable isolated D1 tables", async () => {
     .bind("runtime-user").first();
   assert.deepEqual(user, { id: "runtime-user", role: "customer" });
   const tables = await database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all();
-  for (const name of ["user", "user_addresses", "user_sessions"]) {
-    assert.ok(tables.results.some((table) => table.name === name), `missing ${name}`);
+  assert.ok(tables.results.some((table) => table.name === "user"), "missing user");
+  for (const name of ["user_addresses", "user_sessions"]) {
+    assert.ok(!tables.results.some((table) => table.name === name), `unexpected ${name}`);
   }
 });
 

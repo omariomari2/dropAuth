@@ -113,7 +113,7 @@ The account comes from the session. Bearer tokens cannot authorize deletion.
 The DELETE statement verifies the exact session, CSRF token and database-clock expiry.
 
 Success returns `204` without a body and clears this browser's four login and session cookies.
-A single D1 statement deletes the user and their Google identity, browser sessions, and legacy session and address rows.
+A single D1 statement deletes the user, their Google identity and their browser sessions.
 Other accounts and issuer keys remain unchanged.
 
 Deletion uses `400 invalid_request`, `401 unauthorized`, `403 invalid_csrf` and `403 unrecognized_origin` for the same request and credential errors.

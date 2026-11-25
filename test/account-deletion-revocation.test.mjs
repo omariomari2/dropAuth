@@ -125,13 +125,7 @@ test("a DELETE storage failure preserves the account, cascade rows, sessions, an
   const app = await createTestApp({ modules: await testModules("fail") });
   try {
     const account = await signIn(app);
-    await app.db.batch([
-      app.db.prepare("INSERT INTO user_sessions (user_id, session_token, expires_at) VALUES (?, ?, ?)")
-        .bind(account.user.id, "deletion-failure-legacy-session", "2099-01-01 00:00:00"),
-      app.db.prepare(`INSERT INTO user_addresses (user_id, type, first_name, last_name, address_line_1, city, state, postal_code)
-        VALUES (?, 'shipping', 'Test', 'Person', '1 Test Street', 'Test City', 'IL', '00000')`).bind(account.user.id),
-    ]);
-    const tables = ["user", "user_identities", "browser_sessions", "user_sessions", "user_addresses"];
+    const tables = ["user", "user_identities", "browser_sessions"];
     const before = await Promise.all(tables.map(async (table) => (await app.db.prepare(`SELECT * FROM ${table}`).all()).results));
     const cookies = [...account.client.cookies];
     const response = await removeAccount(account);
